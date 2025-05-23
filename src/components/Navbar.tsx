@@ -45,7 +45,10 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2 group">
-            <span className="text-2xl md:text-3xl font-display font-bold text-village-green">
+            <span className={cn(
+              "text-2xl md:text-3xl font-display font-bold transition-colors duration-300",
+              isScrolled ? "text-village-green" : "text-white"
+            )}>
               Venkatapuram
               <span className="text-village-gold">.</span>
             </span>
@@ -58,10 +61,15 @@ const Navbar = () => {
                 key={item.name} 
                 to={item.path}
                 className={cn(
-                  "text-lg font-medium transition-colors hover:text-village-teal relative",
+                  "text-lg font-medium transition-colors",
+                  isScrolled 
+                    ? "hover:text-village-teal" 
+                    : "text-white hover:text-village-gold",
                   location.pathname === item.path 
-                    ? "text-village-teal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-teal" 
-                    : ""
+                    ? isScrolled ? "text-village-teal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-teal" 
+                    : "text-village-gold after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-gold"
+                    : "",
+                  "relative"
                 )}
               >
                 {item.name}
@@ -71,7 +79,10 @@ const Navbar = () => {
           
           {/* Mobile Navigation Toggle */}
           <button 
-            className="md:hidden p-2 text-primary rounded-md hover:bg-accent/10"
+            className={cn(
+              "md:hidden p-2 rounded-md hover:bg-accent/10",
+              isScrolled ? "text-primary" : "text-white"
+            )}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
