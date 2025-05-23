@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
 import Section from "@/components/Section";
@@ -181,7 +180,10 @@ const Index = () => {
       </Section>
       
       {/* Video Section */}
-      <Section className="overflow-hidden">
+      <Section 
+        title="Experience Village Life"
+        className="overflow-hidden"
+      >
         <div className="max-w-4xl mx-auto">
           <div className="relative rounded-xl overflow-hidden shadow-2xl reveal mb-12">
             <video
