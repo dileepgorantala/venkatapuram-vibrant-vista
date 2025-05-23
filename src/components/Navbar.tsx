@@ -9,6 +9,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   
+  // Set initial scroll state based on current position
+  // This ensures the navbar has the correct appearance on page load/navigation
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -18,12 +20,16 @@ const Navbar = () => {
       }
     };
     
+    // Check initial scroll position
+    handleScroll();
+    
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
   
+  // Close mobile menu when route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -47,7 +53,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-2 group">
             <span className={cn(
               "text-2xl md:text-3xl font-display font-bold transition-colors duration-300",
-              isScrolled ? "text-village-green" : "text-white"
+              isScrolled || location.pathname !== "/" ? "text-village-green" : "text-white"
             )}>
               Venkatapuram
               <span className="text-village-gold">.</span>
@@ -61,15 +67,15 @@ const Navbar = () => {
                 key={item.name} 
                 to={item.path}
                 className={cn(
-                  "text-lg font-medium transition-colors",
-                  isScrolled 
+                  "text-lg font-medium transition-colors relative",
+                  isScrolled || location.pathname !== "/" 
                     ? "hover:text-village-teal" 
                     : "text-white hover:text-village-gold",
                   location.pathname === item.path 
-                    ? isScrolled ? "text-village-teal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-teal" 
-                    : "text-village-gold after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-gold"
-                    : "",
-                  "relative"
+                    ? isScrolled || location.pathname !== "/" 
+                      ? "text-village-teal after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-teal" 
+                      : "text-village-gold after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-village-gold"
+                    : ""
                 )}
               >
                 {item.name}
@@ -81,7 +87,7 @@ const Navbar = () => {
           <button 
             className={cn(
               "md:hidden p-2 rounded-md hover:bg-accent/10",
-              isScrolled ? "text-primary" : "text-white"
+              isScrolled || location.pathname !== "/" ? "text-primary" : "text-white"
             )}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
